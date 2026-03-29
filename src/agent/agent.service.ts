@@ -1,4 +1,5 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 // 在文件顶部添加
 import { PromptTemplate } from '@langchain/core/prompts';
 import { StringOutputParser } from '@langchain/core/output_parsers';
@@ -18,12 +19,15 @@ export class AgentService {
   private xiaohongshuAgent: Runnable<{ input: string }, string>;
   private weatherAgent: Runnable<{ input: string }, ChainValues | string>;
 
-  constructor(private readonly mbtiService: MbtiService) {
+  constructor(
+    private readonly mbtiService: MbtiService,
+    private configService: ConfigService,
+  ) {
     // 初始化LangChain模型
     this.llm = new ChatOpenAI({
-      openAIApiKey: 'sk-839c413f949049918615290813173f2f',
+      openAIApiKey: this.configService.get<string>('LLM_API_KEY'),
       configuration: {
-        baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+        baseURL: this.configService.get<string>('LLM_BASE_URL'),
       },
       modelName: 'qwen-long',
       temperature: 0.8,

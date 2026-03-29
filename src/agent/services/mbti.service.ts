@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { readFileSync } from 'fs';
 import * as path from 'path';
 import {
@@ -22,7 +23,7 @@ export class MbtiService {
   private sessionHistories: Map<string, ChatMessageHistory> = new Map();
 
   // 要根据用户的回答引导性提问
-  constructor() {
+  constructor(private configService: ConfigService) {
     this.initializeMbtiData();
     this.initializeAgent();
   }
@@ -68,9 +69,9 @@ export class MbtiService {
     ]);
 
     const model = new ChatOpenAI({
-      openAIApiKey: 'sk-839c413f949049918615290813173f2f',
+      openAIApiKey: this.configService.get<string>('LLM_API_KEY'),
       configuration: {
-        baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+        baseURL: this.configService.get<string>('LLM_BASE_URL'),
       },
       modelName: 'qwen-plus',
       temperature: 0.4,
@@ -123,9 +124,9 @@ export class MbtiService {
     ]);
 
     const llm = new ChatOpenAI({
-      openAIApiKey: 'sk-839c413f949049918615290813173f2f',
+      openAIApiKey: this.configService.get<string>('LLM_API_KEY'),
       configuration: {
-        baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+        baseURL: this.configService.get<string>('LLM_BASE_URL'),
       },
       modelName: 'qwen-plus',
       temperature: 0.4,

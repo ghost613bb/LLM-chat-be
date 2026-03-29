@@ -2,6 +2,7 @@ import OpenAI from 'openai';
 import * as fs from 'fs';
 import * as path from 'path';
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { BASE_URL } from 'src/constant';
 import { isImageByExtension } from 'src/util';
 
@@ -10,11 +11,11 @@ export class AiService {
   private openai: OpenAI;
   private defaultMessage = 'you are a helpful assistant';
 
-  constructor() {
+  constructor(private configService: ConfigService) {
     this.openai = new OpenAI({
       // 若没有配置环境变量，请用阿里云百炼API Key将下行替换为：apiKey: "sk-xxx",
-      apiKey: 'sk-839c413f949049918615290813173f2f',
-      baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+      apiKey: this.configService.get<string>('LLM_API_KEY'),
+      baseURL: this.configService.get<string>('LLM_BASE_URL'),
     });
   }
 
