@@ -58,7 +58,8 @@ export class RagService {
         configuration: {
           baseURL: this.configService.get<string>('LLM_BASE_URL'),
         },
-        modelName: 'text-embedding-v1',
+        modelName: this.configService.get<string>('LLM_EMBEDDING_MODEL') || 'text-embedding-v1',
+        batchSize: 1, // 防止某些服务不支持大批量嵌入
       });
 
       // 初始化LLM
@@ -67,7 +68,7 @@ export class RagService {
         configuration: {
           baseURL: this.configService.get<string>('LLM_BASE_URL'),
         },
-        modelName: 'qwen-long',
+        modelName: this.configService.get<string>('LLM_MODEL_NAME') || 'qwen-long',
         temperature: 0.1,
       });
 

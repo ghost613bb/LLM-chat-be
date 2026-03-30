@@ -81,7 +81,7 @@ export class AiService {
 
   async getMain(message: string, filePath: string, imgUrl?: string[]) {
     const isImage = isImageByExtension(filePath);
-    const model = isImage ? 'qwen-vl-plus' : 'qwen-long';
+    const model = isImage ? 'qwen-vl-plus' : this.configService.get<string>('LLM_MODEL_NAME') || 'qwen-long';
 
     const content = filePath
       ? await this.getAiWithFile(filePath)

@@ -73,7 +73,7 @@ export class MbtiService {
       configuration: {
         baseURL: this.configService.get<string>('LLM_BASE_URL'),
       },
-      modelName: 'qwen-plus',
+      modelName: this.configService.get<string>('LLM_MODEL_NAME') || 'qwen-plus',
       temperature: 0.4,
     });
 
@@ -128,7 +128,7 @@ export class MbtiService {
       configuration: {
         baseURL: this.configService.get<string>('LLM_BASE_URL'),
       },
-      modelName: 'qwen-plus',
+      modelName: this.configService.get<string>('LLM_MODEL_NAME') || 'qwen-plus',
       temperature: 0.4,
     });
 

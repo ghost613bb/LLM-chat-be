@@ -29,7 +29,7 @@ export class AgentService {
       configuration: {
         baseURL: this.configService.get<string>('LLM_BASE_URL'),
       },
-      modelName: 'qwen-long',
+      modelName: this.configService.get<string>('LLM_MODEL_NAME') || 'qwen-long',
       temperature: 0.8,
     });
 

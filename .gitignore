@@ -14,7 +14,7 @@ uploads
 .env
 .env.example
 src/.env
-src/.example
+src/.env.example
 
 # Docker 相关
 docker-compose.override.yml
